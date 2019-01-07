@@ -1,0 +1,23 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/1913045515/SaasConfig/
+          search-paths: config
+    label: master
+  consul:
+    host: 127.0.0.1
+    port: 8500
+    discovery:
+      register: true
+      hostname: 127.0.0.1
+      serviceName: ${spring.application.name}
+      healthCheckPath: /actuator/health
+      healthCheckInterval: 120s
+      tags: urlprefix-/${spring.application.name}
+      instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}

@@ -1,0 +1,33 @@
+server:
+  port: 8082
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
+ribbon:
+  ConnectTimeout: 500
+  ReadTimeout: 30000
+  OkToRetryOnAllOperations: false
+  MaxAutoRetriesNextServer: 2
+  MaxAutoRetries: 1
+spring:
+  application:
+    name: consumer
+  cloud:
+      loadbalancer:
+        retry:
+          enabled: false
+  consul:
+    host: 127.0.0.1
+    port: 8500
+    discovery:
+      register: true
+      hostname: 127.0.0.2
+      serviceName: ${spring.application.name}
+      healthCheckPath: /actuator/health
+      healthCheckInterval: 10s
+      tags: urlprefix-/${spring.application.name}
+      instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}

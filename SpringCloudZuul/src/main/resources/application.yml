@@ -1,0 +1,13 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: saas
+zuul:
+  routes:
+    api-a:
+      path: /provider/**
+      serviceId: provider
+    api-b:
+      path: /consumer/**
+      serviceId: consumer
